@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app="mimidoro">
+    <head>
+
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <!--
+        <link rel="stylesheet" type="text/css" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+        <script type="text/javascript" src="../../bower_components/angular-timer/app/js/_timer.js"></script>
+        -->
+
+        <title>Mimidoro</title>
+
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="MenuController as menu">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
+                    <a class="navbar-brand" href="#">Mimidoro</a>
+                </div>
+            </div>
+         </nav>
+
+        <div class="container center">
+
+            <div ng-controller="TimerController as timer">
+                <h1 id="timer">00:00</h1>
+                <hr>
+                <button onclick="startTimer()" id="start_btn">{{timer.start_btn.caption}}</button>
+                <button onclick="skipTimer()" id="skip_btn">{{timer.skip_btn.caption}}</button>
+                <button onclick="stopTimer()" id="stop_btn">{{timer.stop_btn.caption}}</button>
+                <hr>
+            </div>
+
+            <section ng-controller="MenuController as menu" class="center">
+
+                <ul class="nav nav-pills nav-justified">
+                    <li ng-class="{ active:menu.isSelected(1) }">
+                        <a href ng-click="menu.selectTab(1)">Tasks</a>
+                    </li>
+                    <li ng-class="{ active:menu.isSelected(2) }">
+                         <a href ng-click="menu.selectTab(2)">Reports</a>
+                    </li>
+                    <li ng-class="{ 3 }">
+                         <a href ng-click="menu.selectTab(3)">Settings</a>
+                    </li>
+                </ul>
+
+                <div class="menu" ng-show="menu.isSelected(1)">
+
+                    <div ng-controller="TasksController as tasksCtrl">
+
+                        <form name="tasksForm" ng-submit="tasksCtrl.addTask(task)">
+
+                            <input type="text" ng-model="tasksCtrl.task.description" class="form-control add-task-field" placeholder="I am going to work on...">
+                            <input type="submit" value={{tasksCtrl.add_task.caption}} class="btn btn-default add-btn btn-info" />
+                        </form>
+
+                        <ul ng-repeat="task in tasksCtrl.list" class="nav nav-pills">
+                            <li>{{task.description}}</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="menu" ng-show="menu.isSelected(2)">
+
+                    <div ng-controller="ReportsController as reports">
+                        <p class="tab-body">{{reports.reports_list.report_name}}</p>
+                    </div>
+
+                </div>
+
+                <div class="menu" ng-show="menu.isSelected(3)">
+
+                    <div ng-controller="SettingsController as settings">
+                        <p class="tab-body">{{settings.settings_list.setting_name}}</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <!--
+            Due to Angular documentation, scripts should be at the end of page
+            to avoid blocking HTML code loading by angular.js file loading
+        -->
+
+        <script type="text/javascript" src="js/timer.js"></script>
+        <script type="text/javascript" src="angular/angular.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+
+    </body>
+</html>

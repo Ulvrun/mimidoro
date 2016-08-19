@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Example - Single Timer Example</title>
+     <script type="text/javascript" src="angular-timer/app/js/_timer.js"></script>
+        <script type="text/javascript" src="angular/angular.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+    <script>
+        angular.module('MyApp', ['timer']);
+        function MyAppController($scope) {
+            $scope.timerRunning = true;
+
+            $scope.startTimer = function (){
+                $scope.$broadcast('timer-start');
+                $scope.timerRunning = true;
+            };
+
+            $scope.stopTimer = function (){
+                $scope.$broadcast('timer-stop');
+                $scope.timerRunning = false;
+            };
+
+            $scope.$on('timer-stopped', function (event, data){
+                console.log('Timer Stopped - data = ', data);
+            });
+        }
+        MyAppController.$inject = ['$scope'];
+    </script>
+</head>
+<body ng-app="MyApp">
+    <div ng-controller="MyAppController">
+        <h1>AngularJS - Single Timer Example</h1>
+        <h3><timer class="ng-isolate-scope"><span class="ng-binding ng-scope"></span></timer></h3>
+        <button ng-click="startTimer()" ng-disabled="timerRunning">Start Timer</button>
+        <button ng-click="stopTimer()" ng-disabled="!timerRunning">Stop Timer</button>
+    </div>
+    <br/>
+</body>
+</html>
