@@ -17,23 +17,25 @@
 
     <body>
 
-        <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="MenuController as menu">
+        <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="MenuController">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
-                    <a class="navbar-brand" href="#">Mimidoro</a>
+                    <a class="navbar-brand" href="#">{{app_name}}</a>
                 </div>
             </div>
          </nav>
 
         <div class="container center">
 
-            <div ng-controller="TimerController as timer">
-                <h1 id="timer">00:00</h1>
+            <div ng-controller="TimerController">
+                <h1 id="timer">
+                    <span ng-hide="is_zero_shown()">0</span>{{minutes}}:<span ng-hide="is_zero_shown()">0</span>{{seconds}}
+                </h1>
                 <hr>
-                <button onclick="startTimer()" id="start_btn">{{timer.start_btn.caption}}</button>
-                <button onclick="skipTimer()" id="skip_btn">{{timer.skip_btn.caption}}</button>
-                <button onclick="stopTimer()" id="stop_btn">{{timer.stop_btn.caption}}</button>
+                <button ng-click="start_timer()" id="start_btn">{{start_btn}}</button> 
+                <button ng-click="skip_timer()" id="skip_btn">{{skip_btn}}</button>
+                <button ng-click="stop_timer()" id="stop_btn">{{stop_btn}}</button>
                 <hr>
             </div>
 
@@ -41,27 +43,26 @@
 
                 <ul class="nav nav-pills nav-justified">
                     <li ng-class="{ active:menu.isSelected(1) }">
-                        <a href ng-click="menu.selectTab(1)">Tasks</a>
+                        <a href ng-click="menu.selectTab(1)">{{tasks_btn}}</a>
                     </li>
                     <li ng-class="{ active:menu.isSelected(2) }">
-                         <a href ng-click="menu.selectTab(2)">Reports</a>
+                         <a href ng-click="menu.selectTab(2)">{{reports_btn}}</a>
                     </li>
                     <li ng-class="{ 3 }">
-                         <a href ng-click="menu.selectTab(3)">Settings</a>
+                         <a href ng-click="menu.selectTab(3)">{{settings_btn}}</a>
                     </li>
                 </ul>
 
                 <div class="menu" ng-show="menu.isSelected(1)">
 
-                    <div ng-controller="TasksController as tasksCtrl">
+                    <div ng-controller="TasksController">
 
-                        <form name="tasksForm" ng-submit="tasksCtrl.addTask(task)">
+                        <form name="tasksForm" ng-submit="addTask(task)">
 
-                            <input type="text" ng-model="tasksCtrl.task.description" class="form-control add-task-field" placeholder="I am going to work on...">
-                            <input type="submit" value={{tasksCtrl.add_task.caption}} class="btn btn-default add-btn btn-info" />
+                            <input type="text" ng-model="task.description" class="form-control add-task-field" placeholder="I am going to work on...">
+                            <input type="submit" value={{add_task_btn}} class="btn btn-default add-btn btn-info" />
                         </form>
-
-                        <ul ng-repeat="task in tasksCtrl.list" class="nav nav-pills">
+                        <ul ng-repeat="task in tasks_list" class="nav nav-pills">
                             <li>{{task.description}}</li>
                         </ul>
                     </div>
@@ -70,16 +71,16 @@
 
                 <div class="menu" ng-show="menu.isSelected(2)">
 
-                    <div ng-controller="ReportsController as reports">
-                        <p class="tab-body">{{reports.reports_list.report_name}}</p>
+                    <div ng-controller="ReportsController">
+                        <p class="tab-body">{{reports}}</p>
                     </div>
 
                 </div>
 
                 <div class="menu" ng-show="menu.isSelected(3)">
 
-                    <div ng-controller="SettingsController as settings">
-                        <p class="tab-body">{{settings.settings_list.setting_name}}</p>
+                    <div ng-controller="SettingsController">
+                        <p class="tab-body">{{settings}}</p>
                     </div>
 
                 </div>
