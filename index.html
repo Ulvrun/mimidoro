@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html ng-app="mimidoro">
-    <head>
+    <head ng-controller="MenuController">
 
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -11,7 +11,7 @@
         <script type="text/javascript" src="../../bower_components/angular-timer/app/js/_timer.js"></script>
         -->
 
-        <title>Mimidoro</title>
+        <title>{{app_name}}</title>
 
     </head>
 
@@ -28,16 +28,18 @@
 
         <div class="container center">
 
-            <div ng-controller="TimerController">
+            <div ng-controller="TimerController as timer">
                 <h1 id="timer">
                     <span ng-hide="is_zero_shown()">0</span>{{minutes}}:<span ng-hide="is_zero_shown()">0</span>{{seconds}}
                 </h1>
                 <hr>
-                <button ng-click="start_timer()" id="start_btn">{{start_btn}}</button> 
+                <h2>{{session_title}}</h2>
+                <h2>Total time: {{time}}</h2>
+                <button ng-click="start_work_timer()" id="start_btn">{{start_btn}}</button>
                 <button ng-click="skip_timer()" id="skip_btn">{{skip_btn}}</button>
                 <button ng-click="stop_timer()" id="stop_btn">{{stop_btn}}</button>
                 <hr>
-            </div>
+                <h2 id="demo"></h2>
 
             <section ng-controller="MenuController as menu" class="center">
 
@@ -55,12 +57,13 @@
 
                 <div class="menu" ng-show="menu.isSelected(1)">
 
-                    <div ng-controller="TasksController">
+                    <div ng-controller="TasksController" class="tab-body">
+                        <p class="mi-tab-title">{{tasks_title}}</p>
 
                         <form name="tasksForm" ng-submit="addTask(task)">
 
                             <input type="text" ng-model="task.description" class="form-control add-task-field" placeholder="I am going to work on...">
-                            <input type="submit" value={{add_task_btn}} class="btn btn-default add-btn btn-info" />
+                            <input type="submit" value={{add_task_btn}} ng-click="save_task()" class="btn btn-default add-btn btn-info" />
                         </form>
                         <ul ng-repeat="task in tasks_list" class="nav nav-pills">
                             <li>{{task.description}}</li>
@@ -71,21 +74,39 @@
 
                 <div class="menu" ng-show="menu.isSelected(2)">
 
-                    <div ng-controller="ReportsController">
-                        <p class="tab-body">{{reports}}</p>
+                    <div ng-controller="ReportsController" class="tab-body">
+                        <p class="mi-tab-title">{{reports_title}}</p>
+
+                        <div class="mi-reports">
+                            <p>Daily productivity: {{work_session_counter}}</p>
+                        </div>
+
                     </div>
 
                 </div>
 
                 <div class="menu" ng-show="menu.isSelected(3)">
 
-                    <div ng-controller="SettingsController">
-                        <p class="tab-body">{{settings}}</p>
+                    <div ng-controller="SettingsController" class="tab-body">
+                        <p class="mi-tab-title">{{settings_title}}</p>
+
+                        <div class="mi-settings">
+                            <h5 class="mi-input-title">{{work_session_duration_title}}</h5>
+                            <input ng-model="work_session_duration" class="form-control" type="text" placeholder="Default: 25 minutes"/>
+                            <hr/>
+                            <h5 class="mi-input-title">{{short_break_duration_title}}</h5>
+                            <input ng-model="break_duration" class="form-control" type="text" placeholder="Default: 5 minutes"/>
+                            <hr/>
+                            <h5 class="mi-input-title">{{long_break_duration_title}}</h5>
+                            <input class="form-control" type="text" placeholder="Default: 15 minutes"/>
+                            <hr/>
+                        </div>
                     </div>
 
                 </div>
 
             </section>
+            </div>
 
         </div>
 
